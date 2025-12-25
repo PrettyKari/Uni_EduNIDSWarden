@@ -5,12 +5,13 @@
 int port_is_allowed(uint16_t port)
 {
     uint16_t host_port = ntohs(port);
-    const uint16_t allowed[] = {5050U, 8060U, 3020U};
-    for (size_t i = 0; i < 3; ++i) {
-        if (host_port == allowed[i]) {
-            return 1;
-        }
-    }
+    static const uint16_t allowed_ports[] = { 5050U, 8060U, 3020U };
+	static const size_t allowed_ports_count = 3;
+    for (size_t i = 0; i < allowed_ports_count; ++i) {
+		if (host_port == allowed_ports[i]) {
+			return 1;
+		}
+	}
     return 0;
 }
 
