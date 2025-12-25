@@ -6,7 +6,6 @@ import os
 
 
 os.makedirs("logs", exist_ok = (True))
-log_file = None
 cnsl_logging = True
 def logger(message, cnsl = False):
 	timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")

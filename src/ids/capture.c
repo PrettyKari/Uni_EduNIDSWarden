@@ -26,18 +26,18 @@ int start_capture(void)
         return -1;
     }
 
-//	int dlt = pcap_datalink(handle);
+	int dlt = pcap_datalink(handle);
 	size_t link_hdr_len = 4;
-/*
-*	if (dlt == DLT_EN10MB) {
-*		link_hdr_len = 14;  / Ethernet header /
-*	} else if (dlt == DLT_NULL || dlt == DLT_LOOP) {
-*		link_hdr_len = 4;   / Loopback pseudo-header /
-*	} else {
-*		fprintf(stderr, "Unsupported datalink type: %d\n", dlt);
-*		pcap_close(handle);
-*		return -1;
-*	} */
+
+	if (dlt == DLT_EN10MB) {
+		link_hdr_len = 14;  // Ethernet header
+	} else if (dlt == DLT_NULL || dlt == DLT_LOOP) {
+		link_hdr_len = 4;   // Loopback pseudo-header
+	} else {
+		fprintf(stderr, "Unsupported datalink type: %d\n", dlt);
+		pcap_close(handle);
+		return -1;
+	}
 
 	// Store link_hdr_len for use in parser
 

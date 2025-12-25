@@ -1,0 +1,14 @@
+[2025-12-25 15:23:52] Starting server on 127.0.0.1 ports [3020, 5050, 8060]
+[2025-12-25 15:23:52] Server listening on port 8060
+[2025-12-25 15:23:52] Server listening on port 3020
+[2025-12-25 15:23:52] Server listening on port 5050
+[2025-12-25 15:24:56] Accepted connection from ('127.0.0.1', 6500)
+[2025-12-25 15:24:56] Received from ('127.0.0.1', 6500): Hi!
+[2025-12-25 15:24:56] Sent to ('127.0.0.1', 6500): Server received...
+[2025-12-25 15:24:58] Received from ('127.0.0.1', 6500): Meow
+[2025-12-25 15:24:58] Sent to ('127.0.0.1', 6500): Server received...
+[2025-12-25 15:25:00] Received from ('127.0.0.1', 6500): pspsps
+[2025-12-25 15:25:00] Sent to ('127.0.0.1', 6500): Server received...
+[2025-12-25 15:25:02] Received from ('127.0.0.1', 6500): kkkkkkk
+[2025-12-25 15:25:02] Sent to ('127.0.0.1', 6500): Server received...
+[2025-12-25 15:25:04] Connection with ('127.0.0.1', 6500) closed
