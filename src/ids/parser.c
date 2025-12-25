@@ -1,13 +1,7 @@
 #include "parser.h"
-#include <netinet/tcp.h>
 #include <string.h>
-#include <netinet/in.h>
 #include <arpa/inet.h>
 
-void parse_packet(size_t link_hdr_len, const u_char *packet,
-                  const struct pcap_pkthdr *header,
-                  struct packet_info *info)
-{
 void parse_packet(size_t link_hdr_len, const u_char *packet,
                   const struct pcap_pkthdr *header,
                   struct packet_info *info)

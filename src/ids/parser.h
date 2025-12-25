@@ -1,9 +1,15 @@
 #ifndef PARSER_H
 #define PARSER_H
 
+#include <sys/types.h>     /* defines u_char, u_short, u_int */
+#include <sys/socket.h>    /* required by libpcap on Linux */
+#include <netinet/in.h>    /* required by libpcap on Linux */
 #include <pcap.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
 #include <netinet/ip.h>
 #include <netinet/tcp.h>
+
 
 // Parsed fields for filtering
 struct packet_info {

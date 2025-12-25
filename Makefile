@@ -1,12 +1,12 @@
 # Compiler and flags
 CC      = gcc
-CFLAGS  = -std=c11 -Wall -Wextra -O2
+CFLAGS  = -std=gnu99 -Wall -Wextra -O2
 LIBS    = -lpcap
 
 # Directories (adjusted for ids-project nesting)
-SRCDIR  = ids-project/src/ids
+SRCDIR  = src/ids
 OBJDIR  = obj
-BUILDDIR = ids-project/build
+BUILDDIR = build
 
 # Source files
 SRC     = $(wildcard $(SRCDIR)/*.c)
