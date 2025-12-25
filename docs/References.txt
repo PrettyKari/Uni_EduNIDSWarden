@@ -1,0 +1,79 @@
+!References(links are not checked yet)!
+
+### References and Documentation Sources Used in the Project
+
+The implementation relies on standard C11 libraries, POSIX system headers, libpcap, and Python libraries. Below is a comprehensive list of all referenced components with official documentation links (valid as of December 2025).
+
+#### C Language and Standard Library
+- ISO/IEC 9899:2011 (C11) standard  
+  Official ISO document (purchase required) or draft reference:  
+  https://www.iso.org/standard/57853.html  
+  Free working draft (N1570):  
+  https://web.archive.org/web/20230000000000*/http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf
+
+- GNU C Library (glibc) manual – used for functions like `localtime_r`, `strftime`, `snprintf`, etc.  
+  https://www.gnu.org/software/libc/manual/
+
+#### POSIX and System Headers
+- `<sys/types.h>` – defines basic types including `u_char`, `u_short`, `u_int`  
+  https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/sys_types.h.html
+
+- `<sys/socket.h>` – required by libpcap on Linux for socket definitions  
+  https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/sys_socket.h.html
+
+- `<netinet/in.h>` – defines `in_addr`, `ntohs`, `ntohl`, `IPPROTO_TCP`, etc.  
+  https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/netinet_in.h.html
+
+- `<netinet/ip.h>` – structure `struct iphdr`  
+  Linux kernel documentation (glibc exposes it):  
+  https://man7.org/linux/man-pages/man7/ip.7.html
+
+- `<netinet/tcp.h>` – structure `struct tcphdr` with fields `th_sport`, `th_dport`  
+  https://man7.org/linux/man-pages/man7/tcp.7.html
+
+- `<arpa/inet.h>` – functions `ntohl`, `ntohs`  
+  https://pubs.opengroup.org/onlinepubs/9699919799/functions/ntohl.html
+
+- `<pcap.h>` and related headers (`pcap/bpf.h`) – libpcap API  
+  Official libpcap documentation:  
+  https://www.tcpdump.org/manpages/pcap.3pcap.html  
+  Full man pages collection:  
+  https://www.tcpdump.org/manpages/
+
+#### libpcap Development Package
+- libpcap – packet capture library  
+  Home page and documentation:  
+  https://www.tcpdump.org/  
+  API reference:  
+  https://www.tcpdump.org/manpages/pcap_open_live.3pcap.html
+
+#### Python Standard Library and Third-Party Libraries
+- Python 3.12 Language Reference  
+  https://docs.python.org/3.12/reference/index.html
+
+- `datetime` module – used for timestamp formatting  
+  https://docs.python.org/3.12/library/datetime.html
+
+- `os` module – path handling and directory creation  
+  https://docs.python.org/3.12/library/os.html
+
+- Scapy 2.6.1 – packet manipulation and capture library  
+  Official documentation:  
+  https://scapy.readthedocs.io/en/latest/  
+  Installation and usage:  
+  https://scapy.readthedocs.io/en/latest/installation.html  
+  sniff() function reference:  
+  https://scapy.readthedocs.io/en/latest/api/scapy.sendrecv.html#scapy.sendrecv.sniff
+
+- IP and TCP layer classes in Scapy  
+  https://scapy.readthedocs.io/en/latest/api/scapy.layers.inet.html#scapy.layers.inet.IP  
+  https://scapy.readthedocs.io/en/latest/api/scapy.layers.inet.html#scapy.layers.inet.TCP
+
+#### Windows-Specific Packet Capture (for Python version)
+- Npcap – Windows packet capture driver and library (required by Scapy on Windows)  
+  Official site:  
+  https://npcap.com/  
+  Documentation:  
+  https://npcap.com/guide/
+
+All external dependencies are limited to libpcap (Linux/WSL) and Scapy/Npcap (Python cross-platform). No non-standard or deprecated headers were used. The implementation adheres strictly to C11 and current library versions available in 2025.
