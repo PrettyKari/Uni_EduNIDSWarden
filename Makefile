@@ -1,21 +1,41 @@
-CC = gcc
-CFLAGS = -std=c11 -Wall -Wextra -O2
-LIBS = -lpcap
+# Compiler and flags
+CC      = gcc
+CFLAGS  = -std=c11 -Wall -Wextra -O2
+LIBS    = -lpcap
 
-SRC = src/ids/main.c src/ids/utils.c src/ids/parser.c src/ids/filter.c \
-      src/ids/logger.c src/ids/capture.c
-OBJ = $(SRC:.c=.o)
-TARGET = build/ids
+# Directories (adjusted for ids-project nesting)
+SRCDIR  = ids-project/src/ids
+OBJDIR  = obj
+BUILDDIR = ids-project/build
 
+# Source files
+SRC     = $(wildcard $(SRCDIR)/*.c)
+# Object files in separate directory
+OBJ     = $(SRC:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
+# Final executable
+TARGET  = $(BUILDDIR)/ids
+
+# Default target
 all: $(TARGET)
 
-$(TARGET): $(OBJ)
+# Link object files into executable
+$(TARGET): $(OBJ) | $(BUILDDIR)
 	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
 
-%.o: %.c
+# Compile source files into object files
+$(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-clean:
-	rm -f $(OBJ) $(TARGET)
+# Create required directories if they do not exist
+$(OBJDIR):
+	mkdir -p $(OBJDIR)
 
+$(BUILDDIR):
+	mkdir -p $(BUILDDIR)
+
+# Clean build artifacts
+clean:
+	rm -rf $(OBJDIR) $(BUILDDIR)
+
+# Declare phony targets
 .PHONY: all clean
