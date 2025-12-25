@@ -7,17 +7,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static void packet_handler(u_char *user, const struct pcap_pkthdr *header,
+static void packet_handler(u_char *link_hdr_len_ptr, const struct pcap_pkthdr *header,
                            const u_char *packet)
 {
-    (void)user;  // unused
+	size_t link_hdr_len = *(size_t *)link_hdr_len_ptr;
 
-    struct packet_info info;
-    parse_packet(packet, header, &info);
+	struct packet_info info;
+	parse_packet(link_hdr_len, packet, header, &info);
 
-    int suspicious = is_suspicious(&info);
-    log_packet(&info, suspicious);
-}
+	int suspicious = is_suspicious(&info);
+	log_packet(&info, suspicious);
+	}
 
 int start_capture(void)
 {
@@ -28,15 +28,24 @@ int start_capture(void)
         return -1;
     }
 
-    if (pcap_datalink(handle) != DLT_EN10MB) {
-        fprintf(stderr, "Interface %s is not Ethernet\n", INTERFACE);
-        pcap_close(handle);
-        return -1;
-    }
+	int dlt = pcap_datalink(handle);
+	size_t link_hdr_len = 0;
+
+	if (dlt == DLT_EN10MB) {
+		link_hdr_len = 14;  /* Ethernet header */
+	} else if (dlt == DLT_NULL || dlt == DLT_LOOP) {
+		link_hdr_len = 4;   /* Loopback pseudo-header */
+	} else {
+		fprintf(stderr, "Unsupported datalink type: %d\n", dlt);
+		pcap_close(handle);
+		return -1;
+	}
+
+	// Store link_hdr_len for use in parser
 
     printf("Capturing on interface %s...\n", INTERFACE);
 
-    pcap_loop(handle, 0, packet_handler, NULL);
+    pcap_loop(handle, 0, packet_handler, (u_char *)&link_hdr_len);
 
     pcap_close(handle);
     return 0;  // only reached on error or break

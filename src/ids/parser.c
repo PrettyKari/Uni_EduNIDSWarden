@@ -1,41 +1,31 @@
 #include "parser.h"
 #include <string.h>
-#include <net/ethernet.h>
 #include <netinet/in.h>
+#include <arpa/inet.h>
 
-void parse_packet(const u_char *packet, const struct pcap_pkthdr *header,
+void parse_packet(size_t link_hdr_len, const u_char *packet,
+                  const struct pcap_pkthdr *header,
                   struct packet_info *info)
 {
     (void)header;  // unused
 
     memset(info, 0, sizeof(*info));
 
-    // Ethernet header: 14 bytes
-    if (header->caplen < 14) {
-        info->is_valid = 0;
-        return;
-    }
-    struct ether_header *eth = (struct ether_header *)packet;
-    if (ntohs(eth->ether_type) != ETHERTYPE_IP) {
-        info->is_valid = 0;
-        return;
-    }
-
     // IP header starts after Ethernet
-    const u_char *ip_packet = packet + 14;
-    if (header->caplen < 14 + sizeof(struct iphdr)) {
+    const u_char *ip_packet = packet + link_hdr_len;
+    if (header->caplen < link_hdr_len + sizeof(struct iphdr)) {
         info->is_valid = 0;
         return;
     }
     struct iphdr *iph = (struct iphdr *)ip_packet;
 
-    if (iph->version != 4 || iph->protocol != IPPROTO_TCP && iph->protocol != IPPROTO_UDP) {
+    if (iph->version != link_hdr_len || iph->protocol != IPPROTO_TCP && iph->protocol != IPPROTO_UDP) {
         info->is_valid = 0;
         return;
     }
 
     size_t ip_hdr_len = iph->ihl * 4;
-    if (header->caplen < 14 + ip_hdr_len + 4) {
+    if (header->caplen < link_hdr_len + ip_hdr_len + 4) {
         info->is_valid = 0;
         return;
     }

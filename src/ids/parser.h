@@ -15,8 +15,12 @@ struct packet_info {
     int is_valid;  		// err flag
 };
 
+
 /* Parse Ethernet IPv4 to TCP/UDP headers
  * Sets info is_valid = 0 as flag on error or non-matching protocol. */
-void parse_packet(const u_char *packet, const struct pcap_pkthdr *header, struct packet_info *info);
+void parse_packet(size_t link_hdr_len,
+                  const u_char *packet,
+                  const struct pcap_pkthdr *header,
+                  struct packet_info *info);
 
 #endif /* PARSER_H */

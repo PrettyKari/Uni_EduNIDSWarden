@@ -1,13 +1,13 @@
 #include "filter.h"
 #include <stdint.h>
 
-static const uint16_t allowed_ports[] = ALLOWED_PORTS;
 
 int port_is_allowed(uint16_t port)
 {
     uint16_t host_port = ntohs(port);
-    for (size_t i = 0; i < ALLOWED_PORTS_COUNT; ++i) {
-        if (host_port == allowed_ports[i]) {
+    const uint16_t allowed[] = {5050U, 8060U, 3020U};
+    for (size_t i = 0; i < 3; ++i) {
+        if (host_port == allowed[i]) {
             return 1;
         }
     }
